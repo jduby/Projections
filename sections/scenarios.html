@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario Analysis - Retirement Planner</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <div class="scenarios content-section" id="scenarios-content">
+        <header class="main-header">
+            <h1>Scenario Analysis</h1>
+            <p>Compare different retirement scenarios to make informed decisions</p>
+        </header>
+
+    <!-- Scenario Controls -->
+    <div class="scenario-controls">
+        <div class="scenario-actions">
+            <button class="btn btn-primary" id="create-scenario">
+                <i class="fas fa-plus"></i> Create New Scenario
+            </button>
+            <div class="scenario-filters">
+                <div class="dropdown">
+                    <button class="btn btn-outline dropdown-toggle" type="button" id="filter-dropdown" data-toggle="dropdown">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item active" href="#" data-filter="all">All Scenarios</a>
+                        <a class="dropdown-item" href="#" data-filter="saved">Saved</a>
+                        <a class="dropdown-item" href="#" data-filter="recent">Recently Viewed</a>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search scenarios...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scenario Grid -->
+    <div class="scenario-grid">
+        <!-- Current Scenario (Base) -->
+        <div class="scenario-card active">
+            <div class="scenario-header">
+                <h3>Current Plan</h3>
+                <span class="badge badge-primary">Active</span>
+            </div>
+            <div class="scenario-summary">
+                <div class="summary-item">
+                    <span class="label">Retirement Age</span>
+                    <span class="value">65</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Withdrawal Rate</span>
+                    <span class="value">4.0%</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Success Rate</span>
+                    <span class="value success">92%</span>
+                </div>
+            </div>
+            <div class="scenario-chart">
+                <canvas id="current-scenario-chart"></canvas>
+            </div>
+            <div class="scenario-actions">
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-chart-bar"></i> Details
+                </button>
+                <button class="btn btn-sm btn-outline" disabled>
+                    <i class="far fa-clone"></i> Duplicate
+                </button>
+            </div>
+        </div>
+
+        <!-- Scenario 1 -->
+        <div class="scenario-card">
+            <div class="scenario-header">
+                <h3>Early Retirement</h3>
+                <span class="badge">Draft</span>
+            </div>
+            <div class="scenario-summary">
+                <div class="summary-item">
+                    <span class="label">Retirement Age</span>
+                    <span class="value">60</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Withdrawal Rate</span>
+                    <span class="value">3.5%</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Success Rate</span>
+                    <span class="value warning">78%</span>
+                </div>
+            </div>
+            <div class="scenario-chart">
+                <canvas class="scenario-mini-chart" data-values="100,95,90,85,80,75,70,68,65,60"></canvas>
+            </div>
+            <div class="scenario-actions">
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-chart-bar"></i> Details
+                </button>
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-clone"></i> Duplicate
+                </button>
+            </div>
+        </div>
+
+        <!-- Scenario 2 -->
+        <div class="scenario-card">
+            <div class="scenario-header">
+                <h3>Part-Time Work</h3>
+                <span class="badge">Draft</span>
+            </div>
+            <div class="scenario-summary">
+                <div class="summary-item">
+                    <span class="label">Retirement Age</span>
+                    <span class="value">62</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Withdrawal Rate</span>
+                    <span class="value">3.0%</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Success Rate</span>
+                    <span class="value success">95%</span>
+                </div>
+            </div>
+            <div class="scenario-chart">
+                <canvas class="scenario-mini-chart" data-values="100,98,96,95,94,93,92,91,90,89"></canvas>
+            </div>
+            <div class="scenario-actions">
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-chart-bar"></i> Details
+                </button>
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-clone"></i> Duplicate
+                </button>
+            </div>
+        </div>
+
+        <!-- Scenario 3 -->
+        <div class="scenario-card">
+            <div class="scenario-header">
+                <h3>Delayed Retirement</h3>
+                <span class="badge">Saved</span>
+            </div>
+            <div class="scenario-summary">
+                <div class="summary-item">
+                    <span class="label">Retirement Age</span>
+                    <span class="value">70</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Withdrawal Rate</span>
+                    <span class="value">3.8%</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Success Rate</span>
+                    <span class="value success">99%</span>
+                </div>
+            </div>
+            <div class="scenario-chart">
+                <canvas class="scenario-mini-chart" data-values="100,105,110,115,120,125,130,135,140,145"></canvas>
+            </div>
+            <div class="scenario-actions">
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-chart-bar"></i> Details
+                </button>
+                <button class="btn btn-sm btn-outline">
+                    <i class="far fa-clone"></i> Duplicate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison View -->
+    <div class="comparison-view">
+        <div class="comparison-header">
+            <h3>Scenario Comparison</h3>
+            <div class="comparison-actions">
+                <button class="btn btn-sm btn-outline" id="compare-scenarios">
+                    <i class="fas fa-chart-bar"></i> Compare Selected (0)
+                </button>
+                <button class="btn btn-sm btn-outline" id="export-comparison">
+                    <i class="fas fa-file-export"></i> Export
+                </button>
+            </div>
+        </div>
+        
+        <div class="comparison-table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Current Plan</th>
+                        <th>Early Retirement</th>
+                        <th>Part-Time Work</th>
+                        <th>Delayed Retirement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Retirement Age</td>
+                        <td>65</td>
+                        <td>60</td>
+                        <td>62</td>
+                        <td>70</td>
+                    </tr>
+                    <tr>
+                        <td>Portfolio at Retirement</td>
+                        <td>$1,250,000</td>
+                        <td>$1,100,000</td>
+                        <td>$1,400,000</td>
+                        <td>$1,800,000</td>
+                    </tr>
+                    <tr>
+                        <td>Annual Withdrawal</td>
+                        <td>$50,000</td>
+                        <td>$38,500</td>
+                        <td>$42,000</td>
+                        <td>$68,400</td>
+                    </tr>
+                    <tr>
+                        <td>Withdrawal Rate</td>
+                        <td>4.0%</td>
+                        <td>3.5%</td>
+                        <td>3.0%</td>
+                        <td>3.8%</td>
+                    </tr>
+                    <tr>
+                        <td>Success Rate</td>
+                        <td><span class="badge badge-success">92%</span></td>
+                        <td><span class="badge badge-warning">78%</span></td>
+                        <td><span class="badge badge-success">95%</span></td>
+                        <td><span class="badge badge-success">99%</span></td>
+                    </tr>
+                    <tr>
+                        <td>Legacy Value</td>
+                        <td>$850,000</td>
+                        <td>$620,000</td>
+                        <td>$1,200,000</td>
+                        <td>$1,500,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="comparison-chart">
+            <div class="chart-tabs">
+                <button class="chart-tab active" data-chart="portfolio">Portfolio Value</button>
+                <button class="chart-tab" data-chart="withdrawals">Withdrawals</button>
+                <button class="chart-tab" data-chart="taxes">Tax Impact</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="scenario-comparison-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Scenario Modal -->
+<div class="modal" id="create-scenario-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Create New Scenario</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="scenario-form">
+                <div class="form-group">
+                    <label for="scenario-name">Scenario Name</label>
+                    <input type="text" id="scenario-name" class="form-control" required 
+                           placeholder="E.g., Early Retirement, Market Downturn, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="scenario-description">Description</label>
+                    <textarea id="scenario-description" class="form-control" rows="3"
+                             placeholder="Describe what makes this scenario unique"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="base-scenario">Base On</label>
+                    <select class="form-control" id="base-scenario">
+                        <option value="current">Current Plan</option>
+                        <option value="blank">Blank Scenario</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancel-scenario">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Scenario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Include required libraries -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/retirement-calculator.js"></script>
+    
+<script>
+// Scenario Management
+class ScenarioManager {
+    constructor() {
+        this.scenarios = this.loadScenarios();
+        this.currentScenarioId = 'current';
+        this.initializeEventListeners();
+    }
+    
+    loadScenarios() {
+        // Load scenarios from localStorage or use default
+        const savedScenarios = localStorage.getItem('retirementScenarios');
+        if (savedScenarios) {
+            return JSON.parse(savedScenarios);
+        }
+        
+        // Return default scenarios if none exist
+        return [
+            {
+                id: 'current',
+                name: 'Current Plan',
+                description: 'Your current retirement plan',
+                isActive: true,
+                createdAt: new Date().toISOString(),
+                data: {}
+            },
+            {
+                id: 'scenario-1',
+                name: 'Early Retirement',
+                description: 'Retire at 55 with reduced spending',
+                isActive: false,
+                createdAt: new Date().toISOString(),
+                data: {}
+            },
+            {
+                id: 'scenario-2',
+                name: 'Market Downturn',
+                description: 'Test portfolio performance in a bear market',
+                isActive: false,
+                createdAt: new Date().toISOString(),
+                data: {}
+            }
+        ];
+    }
+    
+    // Initialize mini charts for scenario cards
+    initMiniCharts() {
+        var miniCharts = document.querySelectorAll('.scenario-mini-chart');
+        for (var i = 0; i < miniCharts.length; i++) {
+            var canvas = miniCharts[i];
+            var values = canvas.getAttribute('data-values').split(',').map(Number);
+            // Chart initialization code would go here
+            console.log('Initializing mini chart with values:', values);
+        }
+    }
+    
+    // Update compare button based on selection
+    updateCompareButton() {
+        var selectedCount = document.querySelectorAll('.scenario-card.selected').length;
+        var compareBtn = document.getElementById('compare-scenarios');
+        if (compareBtn) {
+            compareBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Compare Selected (' + selectedCount + ')';
+            compareBtn.disabled = selectedCount < 2;
+        }
+    }
+    
+    // Initialize comparison chart
+    initComparisonChart() {
+        var ctx = document.getElementById('scenario-comparison-chart');
+        if (!ctx) return;
+        
+        // Chart initialization code would go here
+        console.log('Initializing scenario comparison chart...');
+    }
+    
+    // Handle create scenario modal
+    initCreateScenarioModal() {
+        var modal = document.getElementById('create-scenario-modal');
+        if (!modal) return;
+        
+        // Open modal
+        var createBtn = document.getElementById('create-scenario');
+        if (createBtn) {
+            createBtn.addEventListener('click', function() {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        // Close modal
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        
+        var closeBtn = modal.querySelector('.close-modal');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        var cancelBtn = document.getElementById('cancel-scenario');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeModal);
+        }
+        
+        // Close when clicking outside modal
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Handle form submission
+        var scenarioForm = document.getElementById('scenario-form');
+        if (scenarioForm) {
+            scenarioForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var scenarioName = document.getElementById('scenario-name').value;
+                var baseScenario = document.getElementById('base-scenario').value;
+                
+                // Get all checked adjustments
+                var checkboxes = document.querySelectorAll('input[name="adjustments"]:checked');
+                var adjustments = Array.prototype.map.call(checkboxes, function(checkbox) {
+                    return checkbox.value;
+                });
+                
+                console.log('Creating new scenario:', { 
+                    name: scenarioName, 
+                    base: baseScenario, 
+                    adjustments: adjustments 
+                });
+                
+                // Here you would typically make an API call to save the scenario
+                
+                // Close modal and reset form
+                closeModal();
+                this.reset();
+                
+                // Show success message
+                alert('Scenario "' + scenarioName + '" created successfully!');
+            });
+        }
+    }
+    
+    // Initialize all components
+    init() {
+        // Initialize scenario cards
+        var scenarioCards = document.querySelectorAll('.scenario-card');
+        for (var i = 0; i < scenarioCards.length; i++) {
+            scenarioCards[i].addEventListener('click', function() {
+                this.classList.toggle('selected');
+                this.updateCompareButton();
+            });
+        }
+        
+        this.initComparisonChart();
+        this.initCreateScenarioModal();
+        
+        // Handle compare button click
+        var compareBtn = document.getElementById('compare-scenarios');
+        if (compareBtn) {
+            compareBtn.addEventListener('click', function() {
+                var selectedCards = document.querySelectorAll('.scenario-card.selected');
+                var selectedScenarios = [];
+                
+                for (var i = 0; i < selectedCards.length; i++) {
+                    var title = selectedCards[i].querySelector('h3');
+                    selectedScenarios.push(title ? title.textContent : 'Unnamed Scenario');
+                }
+                
+                if (selectedScenarios.length >= 2) {
+                    console.log('Comparing scenarios:', selectedScenarios);
+                    // Here you would typically show the comparison view
+                    alert('Comparing ' + selectedScenarios.length + ' scenarios...');
+                }
+            });
+        }
+        
+        // Handle chart tab switching
+        var chartTabs = document.querySelectorAll('.chart-tab');
+        for (var i = 0; i < chartTabs.length; i++) {
+            chartTabs[i].addEventListener('click', function() {
+                var activeTab = document.querySelector('.chart-tab.active');
+                if (activeTab) {
+                    activeTab.classList.remove('active');
+                }
+                this.classList.add('active');
+                // Update chart based on selected tab
+                this.updateChart(this.dataset.chart);
+            }.bind(this));
+        }
+    }
+    
+    // Update chart based on selected tab
+    updateChart(chartType) {
+        console.log('Updating chart to show:', chartType);
+        // Implementation would update the chart based on the selected type
+    }
+    
+    // Initialize when the DOM is fully loaded
+    initialize() {
+        if (document.readyState === 'complete') {
+            this.init();
+        } else {
+            window.addEventListener('load', this.init.bind(this));
+        }
+    }
+}
+</script>

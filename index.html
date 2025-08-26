@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Drawdown Projection</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo-container">
+                <img src="jd-finance-logo.svg" alt="JD Finance Logo" class="logo">
+                <h1>Purpose & Pennies</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item" data-section="dashboard-content">
+                    <a href="#dashboard-content">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="projections">
+                    <a href="#projections">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Projections</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="social-security">
+                    <a href="#social-security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Social Security</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="tax-planning">
+                    <a href="#tax-planning">
+                        <i class="fas fa-calculator"></i>
+                        <span>Tax Planning</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-section="scenarios">
+                    <a href="#scenarios">
+                        <i class="fas fa-random"></i>
+                        <span>Scenarios</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Content will be loaded here by app.js -->
+            <div id="content" class="content-wrapper">
+                <!-- Dashboard Content (initially visible) -->
+                <div id="dashboard-content" class="content-section">
+                    <div class="dashboard">
+                        <header class="main-header">
+                            <h1>Retirement Dashboard</h1>
+                            <p>Welcome to your retirement planning dashboard</p>
+                        </header>
+
+                        <div class="dashboard-grid">
+                            <!-- Summary Cards -->
+                            <div class="dashboard-card summary">
+                                <div class="card-header">
+                                    <h3>Retirement Summary</h3>
+                                    <span class="last-updated">Updated just now</span>
+                                </div>
+                                <div class="summary-stats">
+                                    <div class="stat">
+                                        <span class="stat-value" id="total-assets">$1,250,000</span>
+                                        <span class="stat-label">Total Assets</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value" id="monthly-income">$4,167</span>
+                                        <span class="stat-label">Monthly Income</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value" id="withdrawal-rate">4.0%</span>
+                                        <span class="stat-label">Withdrawal Rate</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="dashboard-card recent-activity">
+                                <div class="card-header">
+                                    <h3>Recent Activity</h3>
+                                    <a href="#" class="view-all">View All</a>
+                                </div>
+                                <ul class="activity-list">
+                                    <li class="activity-item">
+                                        <div class="activity-icon success">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <div class="activity-title">Portfolio Update</div>
+                                            <div class="activity-time">2 hours ago</div>
+                                        </div>
+                                        <div class="activity-amount positive">+$2,450</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon warning">
+                                            <i class="fas fa-exchange-alt"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <div class="activity-title">Roth Conversion</div>
+                                            <div class="activity-time">1 day ago</div>
+                                        </div>
+                                        <div class="activity-amount negative">-$6,500</div>
+                                    </li>
+                                    <li class="activity-item">
+                                        <div class="activity-icon info">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <div class="activity-title">New Document</div>
+                                            <div class="activity-time">2 days ago</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Portfolio Allocation -->
+                            <div class="dashboard-card allocation">
+                                <div class="card-header">
+                                    <h3>Portfolio Allocation</h3>
+                                    <div class="card-actions">
+                                        <button class="btn-icon" title="Edit Allocation">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="allocation-chart">
+                                    <canvas id="allocation-chart"></canvas>
+                                </div>
+                                <div class="allocation-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #4e73df;"></span>
+                                        <span class="legend-label">Stocks (60%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #1cc88a;"></span>
+                                        <span class="legend-label">Bonds (30%)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #36b9cc;"></span>
+                                        <span class="legend-label">Cash (10%)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Performance -->
+                            <div class="dashboard-card performance">
+                                <div class="card-header">
+                                    <h3>Portfolio Performance</h3>
+                                    <div class="time-filters">
+                                        <button class="time-filter active">1Y</button>
+                                        <button class="time-filter">5Y</button>
+                                        <button class="time-filter">10Y</button>
+                                        <button class="time-filter">All</button>
+                                    </div>
+                                </div>
+                                <div class="performance-chart">
+                                    <canvas id="performance-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Events -->
+                            <div class="dashboard-card events">
+                                <div class="card-header">
+                                    <h3>Upcoming Events</h3>
+                                    <a href="#" class="view-all">View All</a>
+                                </div>
+                                <div class="events-list">
+                                    <div class="event-item">
+                                        <div class="event-date">
+                                            <span class="event-day">15</span>
+                                            <span class="event-month">JUN</span>
+                                        </div>
+                                        <div class="event-details">
+                                            <div class="activity-title">Required Minimum Distribution</div>
+                                            <div class="activity-time">2 hours ago</div>
+                                        </div>
+                                        <div class="event-actions">
+                                            <button class="btn-icon" title="View Details">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="event-item">
+                                        <div class="event-date">
+                                            <span class="event-day">01</span>
+                                            <span class="event-month">JUL</span>
+                                        </div>
+                                        <div class="event-details">
+                                            <div class="activity-title">Social Security Payment</div>
+                                            <div class="activity-time">1 day ago</div>
+                                        </div>
+                                        <div class="event-actions">
+                                            <button class="btn-icon" title="View Details">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="summary-cards">
+                            <div class="card">
+                                <h3>Current Portfolio Value</h3>
+                                <div class="value" id="current-value">$0</div>
+                                <div class="change" id="value-change">+0.0%</div>
+                            </div>
+                            <div class="card">
+                                <h3>Projected Income</h3>
+                                <div class="value" id="projected-income">$0/mo</div>
+                                <div class="change" id="income-change">+0.0%</div>
+                            </div>
+                            <div class="card">
+                                <h3>Success Rate</h3>
+                                <div class="value" id="success-rate">0%</div>
+                                <div class="change" id="success-change">0%</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="dashboard-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="added-spend">Added Spend</label>
+                        <div class="input-with-icon">
+                            <span class="icon">$</span>
+                            <input type="text" 
+                                   id="added-spend" 
+                                   value="0" 
+                                   inputmode="decimal" 
+                                   pattern="[0-9,.]*"
+                                   data-validate="currency"
+                                   placeholder="0"
+                                   aria-describedby="added-spend-help">
+                        </div>
+                        <small id="added-spend-help" class="help-text">Additional expense planned for the current year</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="effective-tax-rate">Effective Tax Rate (%) <span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <span class="icon">%</span>
+                            <input type="number" 
+                                   id="effective-tax-rate" 
+                                   step="0.1" 
+                                   value="13.0" 
+                                   min="0" 
+                                   max="50"
+                                   data-validate="required,number,min:0,max:50"
+                                   aria-describedby="tax-rate-help">
+                        </div>
+                        <small id="tax-rate-help" class="help-text">Tax rate on withdrawals (0-50%)</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="starting-tax-deferred">Tax-Deferred Balance <span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <span class="icon">$</span>
+                            <input type="text" 
+                                   id="starting-tax-deferred" 
+                                   value="1,000,000" 
+                                   inputmode="decimal" 
+                                   pattern="[0-9,.]*"
+                                   data-validate="required,currency"
+                                   placeholder="1,000,000"
+                                   aria-describedby="tax-deferred-help">
+                        </div>
+                        <small id="tax-deferred-help" class="help-text">401(k), Traditional IRA, etc.</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="starting-roth">Roth Balance</label>
+                        <div class="input-with-icon">
+                            <span class="icon">$</span>
+                            <input type="text" 
+                                   id="starting-roth" 
+                                   value="0" 
+                                   inputmode="decimal" 
+                                   pattern="[0-9,.]*"
+                                   data-validate="currency"
+                                   placeholder="0"
+                                   aria-describedby="roth-help">
+                        </div>
+                        <small id="roth-help" class="help-text">Roth IRA, Roth 401(k)</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="starting-taxable">Taxable Balance</label>
+                        <div class="input-with-icon">
+                            <span class="icon">$</span>
+                            <input type="text" 
+                                   id="starting-taxable" 
+                                   value="0" 
+                                   inputmode="decimal" 
+                                   pattern="[0-9,.]*"
+                                   data-validate="currency"
+                                   placeholder="0"
+                                   aria-describedby="taxable-help">
+                        </div>
+                        <small id="taxable-help" class="help-text">Brokerage accounts</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="projection-years">Projection Years <span class="required">*</span></label>
+                        <input type="number" 
+                               id="projection-years" 
+                               value="30" 
+                               min="1" 
+                               max="50"
+                               data-validate="required,number,min:1,max:50"
+                               aria-describedby="years-help">
+                        <small id="years-help" class="help-text">Number of years to project (1-50)</small>
+                        <div class="validation-message"></div>
+                    </div>
+
+                    <div class="income-section">
+                        <h3 class="income-section-header">Annual Income Sources</h3>
+                        <div class="income-fields-container">
+                            <div class="input-group">
+                                <label for="pension-income">Pension Income</label>
+                                <div class="input-with-icon">
+                                    <span class="icon">$</span>
+                                    <input type="text" 
+                                           id="pension-income" 
+                                           value="0" 
+                                           inputmode="decimal" 
+                                           pattern="[0-9,.]*"
+                                           data-validate="currency"
+                                           placeholder="0"
+                                           aria-describedby="pension-help">
+                                </div>
+                                <small id="pension-help" class="help-text">Annual pension income (if any)</small>
+                                <div class="validation-message"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="annuity-income">Annuity Income</label>
+                                <div class="input-with-icon">
+                                    <span class="icon">$</span>
+                                    <input type="text" 
+                                           id="annuity-income" 
+                                           value="0" 
+                                           inputmode="decimal" 
+                                           pattern="[0-9,.]*"
+                                           data-validate="currency"
+                                           placeholder="0"
+                                           aria-describedby="annuity-help">
+                                </div>
+                                <small id="annuity-help" class="help-text">Annual annuity income (if any)</small>
+                                <div class="validation-message"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="social-security-amount">Social Security</label>
+                                <div class="input-with-icon">
+                                    <span class="icon">$</span>
+                                    <input type="text" 
+                                           id="social-security-amount" 
+                                           value="0" 
+                                           inputmode="decimal" 
+                                           pattern="[0-9,.]*"
+                                           data-validate="currency"
+                                           placeholder="0"
+                                           aria-describedby="ss-help">
+                                </div>
+                                <small id="ss-help" class="help-text">Annual Social Security benefits</small>
+                                <div class="validation-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        Social Security Optimization
+                    </h3>
+                    <div class="ss-recommendation" id="ss-recommendation">
+                        <p>Based on your inputs, here's our recommendation for Social Security claiming strategy:</p>
+                        <p class="ss-strategy">
+                            <span class="highlight" id="ss-strategy-text">Loading recommendation...</span>
+                        </p>
+                        <p class="ss-details" id="ss-details"></p>
+                    </div>
+                    <!-- Tax Bracket Visualization -->
+                    <div class="tax-bracket-viz">
+                        <h3>Tax Bracket Impact (married filing jointly 2025)</h3>
+                        <div class="tax-bracket-container">
+                            <div class="tax-bracket-scale"></div>
+                            <div class="tax-bracket-bars">
+                                <div class="tax-bracket-bar" data-bracket="10">
+                                    <div class="bracket-label">10%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$0 - $23,850</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="12">
+                                    <div class="bracket-label">12%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$23,851 - $96,950</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="22">
+                                    <div class="bracket-label">22%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$96,951 - $206,700</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="24">
+                                    <div class="bracket-label">24%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$206,701 - $394,600</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="32">
+                                    <div class="bracket-label">32%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$394,601 - $501,050</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="35">
+                                    <div class="bracket-label">35%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$501,051 - $751,600</div>
+                                </div>
+                                <div class="tax-bracket-bar" data-bracket="37">
+                                    <div class="bracket-label">37%</div>
+                                    <div class="bracket-bar"></div>
+                                    <div class="bracket-range">$751,601+</div>
+                                </div>
+                            </div>
+                            <div class="taxable-income-indicator">
+                                <div class="indicator-line"></div>
+                                <div class="indicator-label">Your Taxable Income</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of dashboard-content -->
+                
+                <!-- Footer Logo -->
+                <footer class="footer-logo">
+                    <img src="jd-finance-logo.svg" alt="JD Finance - Purpose & Pennies Logo" />
+                </footer>
+                
+                <!-- Projections Section -->
+                <div id="projections" class="content-section" style="display: none;">
+                    <div class="projections">
+                        <header class="main-header">
+                            <h1>Retirement Projections</h1>
+                            <p>Analyze and project your retirement savings and income</p>
+                        </header>
+
+                        <div class="projection-controls">
+                            <div class="controls-left">
+                                <button type="button" class="btn btn-primary" id="run-projection">
+                                    <i class="fas fa-sync-alt"></i> Update Projection
+                                </button>
+                                <button type="button" class="btn btn-outline" id="save-scenario">
+                                    <i class="fas fa-save"></i> Save as Scenario
+                                </button>
+                            </div>
+                            <div class="controls-right">
+                                <div class="form-group">
+                                    <label for="projection-years">Projection Years:</label>
+                                    <select id="projection-years" class="form-control" data-validate="required,number,min:1">
+                                        <option value="10">10 Years</option>
+                                        <option value="20">20 Years</option>
+                                        <option value="30" selected>30 Years</option>
+                                        <option value="40">40 Years</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="input-panel">
+                                <h2>📊 Input Parameters</h2>
+                                <form id="projection-form" class="input-grid">
+                                    <!-- Current Age -->
+                                    <div class="input-group">
+                                        <label for="current-age">Current Age</label>
+                                        <input type="number" id="current-age" value="55" min="18" max="100" data-validate="required,number,min:18,max:100">
+                                        <small>Your current age</small>
+                                    </div>
+
+                                    <!-- Portfolio Value -->
+                                    <div class="input-group">
+                                        <label for="starting-tax-deferred">Tax-Deferred Accounts</label>
+                                        <input type="text" id="starting-tax-deferred" value="1,000,000" pattern="[0-9,.]*" data-validate="required,currency">
+                                        <small>401(k), Traditional IRA, etc.</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="starting-roth">Roth Accounts</label>
+                                        <input type="text" id="starting-roth" value="200,000" pattern="[0-9,.]*" data-validate="required,currency">
+                                        <small>Roth IRA, Roth 401(k), etc.</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="starting-taxable">Taxable Accounts</label>
+                                        <input type="text" id="starting-taxable" value="300,000" pattern="[0-9,.]*" data-validate="required,currency">
+                                        <small>Brokerage, savings, etc.</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="yearly-spend">Annual Spending</label>
+                                        <input type="text" id="yearly-spend" value="80,000" pattern="[0-9,.]*" data-validate="required,currency">
+                                        <small>Expected annual retirement spending</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="rate-of-return">Annual Return (%)</label>
+                                        <input type="number" id="rate-of-return" step="0.1" value="6.0" min="0" max="20" data-validate="required,number,min:0,max:20">
+                                        <small>Expected annual investment return</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="inflation-rate">Inflation Rate (%)</label>
+                                        <input type="number" id="inflation-rate" step="0.1" value="3.0" min="0" max="10" data-validate="required,number,min:0,max:10">
+                                        <small>Expected annual inflation rate</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="effective-tax-rate">Effective Tax Rate (%)</label>
+                                        <input type="number" id="effective-tax-rate" step="0.1" value="15.0" min="0" max="50" data-validate="required,number,min:0,max:50">
+                                        <small>Estimated effective tax rate in retirement</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="social-security">Social Security (Annual)</label>
+                                        <input type="text" id="social-security" value="30,000" pattern="[0-9,.]*" data-validate="required,currency">
+                                        <small>Expected annual Social Security benefit</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="pension-income">Pension (Annual)</label>
+                                        <input type="text" id="pension-income" value="0" pattern="[0-9,.]*" data-validate="currency">
+                                        <small>Annual pension income (if any)</small>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label for="other-income">Other Income (Annual)</label>
+                                        <input type="text" id="other-income" value="0" pattern="[0-9,.]*" data-validate="currency">
+                                        <small>Any other annual income sources</small>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="results-container">
+                            <div class="results-panel">
+                                <h2>📈 Projection Results</h2>
+                                
+                                <!-- Summary Cards -->
+                                <div class="summary-cards">
+                                    <div class="summary-card">
+                                        <div class="card-icon">
+                                            <i class="fas fa-wallet"></i>
+                                        </div>
+                                        <div class="card-content">
+                                            <h3>Ending Balance</h3>
+                                            <div class="card-value" id="ending-balance">$0</div>
+                                            <div class="card-subtext">At end of projection</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-card">
+                                        <div class="card-icon">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <div class="card-content">
+                                            <h3>Total Withdrawals</h3>
+                                            <div class="card-value" id="total-withdrawals">$0</div>
+                                            <div class="card-subtext">Total amount withdrawn</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="summary-card">
+                                        <div class="card-icon">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="card-content">
+                                            <h3>Avg. Annual Return</h3>
+                                            <div class="card-value" id="avg-annual-return">0.0%</div>
+                                            <div class="card-subtext">Average return over period</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Projection Chart -->
+                                <div class="projection-chart">
+                                    <h3>Projection Over Time</h3>
+                                    <div class="chart-container">
+                                        <canvas id="projection-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- Detailed Results Table -->
+                                <div class="results-table">
+                                    <h3>Year-by-Year Projection</h3>
+                                    <div class="table-responsive">
+                                        <table id="projection-table" class="data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Year</th>
+                                                    <th>Age</th>
+                                                    <th>Starting Balance</th>
+                                                    <th>Withdrawals</th>
+                                                    <th>Ending Balance</th>
+                                                    <th>Taxes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="projection-table-body">
+                                                <!-- Will be populated by JavaScript -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of projections -->
+                
+                <!-- Social Security Section -->
+                <div id="social-security" class="content-section" style="display: none;">
+                    <div class="social-security">
+                        <header class="main-header">
+                            <h1>Social Security Optimization</h1>
+                            <p>Maximize your Social Security benefits with strategic claiming strategies</p>
+                        </header>
+
+                        <div class="ss-optimization-grid">
+                            <!-- Benefits Overview -->
+                            <div class="ss-card benefits-overview">
+                                <div class="card-header">
+                                    <h3>Your Estimated Benefits</h3>
+                                    <button class="btn btn-sm btn-outline" id="update-benefits">
+                                        <i class="fas fa-edit"></i> Update
+                                    </button>
+                                </div>
+                                <div class="benefits-summary">
+                                    <div class="benefit-item">
+                                        <div class="benefit-label">Full Retirement Age (FRA)</div>
+                                        <div class="benefit-value" id="fra-age">67</div>
+                                        <div class="benefit-note">Based on your birth year</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <div class="benefit-label">Monthly Benefit at FRA</div>
+                                        <div class="benefit-value" id="fra-benefit">$2,500</div>
+                                        <div class="benefit-note">Primary Insurance Amount (PIA)</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <div class="benefit-label">Earliest Claiming Age</div>
+                                        <div class="benefit-value">62</div>
+                                        <div class="benefit-note" id="earliest-benefit">$1,750/mo (70% of PIA)</div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <div class="benefit-label">Latest Claiming Age</div>
+                                        <div class="benefit-value">70</div>
+                                        <div class="benefit-note" id="latest-benefit">$3,100/mo (124% of PIA)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Claiming Age Analysis -->
+                            <div class="ss-card claiming-analysis">
+                                <div class="card-header">
+                                    <h3>Claiming Age Comparison</h3>
+                                    <div class="chart-options">
+                                        <span class="chart-option active" data-metric="monthly">Monthly</span>
+                                        <span class="chart-option" data-metric="cumulative">Cumulative</span>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="ss-comparison-chart"></canvas>
+                                </div>
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #4e73df;"></span>
+                                        <span>Age 62</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #1cc88a;"></span>
+                                        <span>Full Retirement Age (67)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background-color: #f6c23e;"></span>
+                                        <span>Age 70</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Break-Even Analysis -->
+                            <div class="ss-card break-even">
+                                <div class="card-header">
+                                    <h3>Break-Even Analysis</h3>
+                                    <div class="info-tooltip">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span class="tooltip-text">The age when the total benefits received become equal between different claiming strategies</span>
+                                    </div>
+                                </div>
+                                <div class="break-even-content">
+                                    <div class="comparison">
+                                        <div class="comparison-item">
+                                            <div class="comparison-label">Claim at 62 vs FRA (67)</div>
+                                            <div class="comparison-value" id="break-even-62-67">Age 78</div>
+                                        </div>
+                                        <div class="comparison-item">
+                                            <div class="comparison-label">Claim at FRA vs 70</div>
+                                            <div class="comparison-value" id="break-even-67-70">Age 82</div>
+                                        </div>
+                                        <div class="comparison-item">
+                                            <div class="comparison-label">Claim at 62 vs 70</div>
+                                            <div class="comparison-value" id="break-even-62-70">Age 80</div>
+                                        </div>
+                                    </div>
+                                    <div class="break-even-chart">
+                                        <canvas id="break-even-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Spousal Benefits -->
+                            <div class="ss-card spousal-benefits">
+                                <div class="card-header">
+                                    <h3>Spousal Benefits</h3>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="include-spouse" checked>
+                                        <span class="slider round"></span>
+                                    </div>
+                                </div>
+                                <div class="spousal-content" id="spousal-content">
+                                    <div class="spouse-inputs">
+                                        <div class="input-group">
+                                            <label for="spouse-age">Spouse's Age</label>
+                                            <input type="number" id="spouse-age" min="18" max="100" value="65">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="spouse-pia">Spouse's PIA</label>
+                                            <div class="input-with-icon">
+                                                <span class="icon">$</span>
+                                                <input type="text" id="spouse-pia" value="1,200">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="spousal-results">
+                                        <div class="result-item">
+                                            <div class="result-label">Spousal Benefit (50% of PIA)</div>
+                                            <div class="result-value" id="spousal-benefit">$1,250/mo</div>
+                                        </div>
+                                        <div class="result-item">
+                                            <div class="result-label">Survivor Benefit (100% of PIA)</div>
+                                            <div class="result-value" id="survivor-benefit">$2,500/mo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategy Recommendations -->
+                        <div class="strategy-recommendations">
+                            <h3>Recommended Strategy</h3>
+                            <div class="recommendation-card">
+                                <div class="recommendation-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h4>Delay Claiming Until 70</h4>
+                                    <p>Based on your life expectancy and financial situation, we recommend delaying Social Security benefits until age 70 to maximize your lifetime benefits and protect against longevity risk.</p>
+                                    <ul class="recommendation-details">
+                                        <li>Maximizes survivor benefits for your spouse</li>
+                                        <li>Provides inflation-protected income for life</li>
+                                        <li>Reduces sequence of returns risk in early retirement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of social-security -->
+                
+                <!-- Scenarios Section -->
+                <div id="scenarios" class="content-section" style="display: none;">
+                    <div class="scenarios">
+                        <header class="main-header">
+                            <h1>Scenario Analysis</h1>
+                            <p>Compare different retirement scenarios to make informed decisions</p>
+                        </header>
+
+                        <!-- Scenario Controls -->
+                        <div class="scenario-controls">
+                            <div class="scenario-actions">
+                                <button class="btn btn-primary" id="create-scenario">
+                                    <i class="fas fa-plus"></i> Create New Scenario
+                                </button>
+                                <div class="scenario-filters">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline dropdown-toggle" type="button" id="filter-dropdown" data-toggle="dropdown">
+                                            <i class="fas fa-filter"></i> Filter
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item active" href="#" data-filter="all">All Scenarios</a>
+                                            <a class="dropdown-item" href="#" data-filter="saved">Saved</a>
+                                            <a class="dropdown-item" href="#" data-filter="recent">Recently Viewed</a>
+                                        </div>
+                                    </div>
+                                    <div class="search-box">
+                                        <i class="fas fa-search"></i>
+                                        <input type="text" placeholder="Search scenarios...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scenario Grid -->
+                        <div class="scenario-grid">
+                            <!-- Current Scenario (Base) -->
+                            <div class="scenario-card active">
+                                <div class="scenario-header">
+                                    <h3>Current Plan</h3>
+                                    <span class="badge badge-primary">Active</span>
+                                </div>
+                                <div class="scenario-summary">
+                                    <div class="summary-item">
+                                        <span class="label">Retirement Age</span>
+                                        <span class="value">65</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Withdrawal Rate</span>
+                                        <span class="value">4.0%</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value success">92%</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-chart">
+                                    <canvas id="current-scenario-chart"></canvas>
+                                </div>
+                                <div class="scenario-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="far fa-chart-bar"></i> Details
+                                    </button>
+                                    <button class="btn btn-sm btn-outline" disabled>
+                                        <i class="far fa-clone"></i> Duplicate
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Scenario 1 -->
+                            <div class="scenario-card">
+                                <div class="scenario-header">
+                                    <h3>Early Retirement</h3>
+                                    <span class="badge">Draft</span>
+                                </div>
+                                <div class="scenario-summary">
+                                    <div class="summary-item">
+                                        <span class="label">Retirement Age</span>
+                                        <span class="value">60</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Withdrawal Rate</span>
+                                        <span class="value">3.5%</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value warning">78%</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-chart">
+                                    <canvas class="scenario-mini-chart" data-values="100,95,90,85,80,75,70,68,65,60"></canvas>
+                                </div>
+                                <div class="scenario-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="far fa-chart-bar"></i> Details
+                                    </button>
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="far fa-clone"></i> Duplicate
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Scenario 2 -->
+                            <div class="scenario-card">
+                                <div class="scenario-header">
+                                    <h3>Delayed Retirement</h3>
+                                    <span class="badge">Saved</span>
+                                </div>
+                                <div class="scenario-summary">
+                                    <div class="summary-item">
+                                        <span class="label">Retirement Age</span>
+                                        <span class="value">70</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Withdrawal Rate</span>
+                                        <span class="value">3.2%</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span class="label">Success Rate</span>
+                                        <span class="value success">95%</span>
+                                    </div>
+                                </div>
+                                <div class="scenario-chart">
+                                    <canvas class="scenario-mini-chart" data-values="100,105,110,112,115,117,120,122,125,130"></canvas>
+                                </div>
+                                <div class="scenario-actions">
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="far fa-chart-bar"></i> Details
+                                    </button>
+                                    <button class="btn btn-sm btn-outline">
+                                        <i class="far fa-clone"></i> Duplicate
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Add Scenario Card -->
+                            <div class="scenario-card add-scenario" id="add-scenario">
+                                <i class="fas fa-plus-circle"></i>
+                                <h3>Create New Scenario</h3>
+                                <p>Click to start a new scenario analysis</p>
+                            </div>
+                        </div>
+
+                        <!-- Comparison View -->
+                        <div class="comparison-view">
+                            <div class="comparison-header">
+                                <h3>Scenario Comparison</h3>
+                                <div class="comparison-actions">
+                                    <button class="btn btn-sm btn-outline" id="export-comparison">
+                                        <i class="fas fa-download"></i> Export
+                                    </button>
+                                    <button class="btn btn-sm btn-outline" id="close-comparison">
+                                        <i class="fas fa-times"></i> Close
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="comparison-tabs">
+                                <button class="tab-btn active" data-tab="projections">Projections</button>
+                                <button class="tab-btn" data-tab="assumptions">Assumptions</button>
+                                <button class="tab-btn" data-tab="results">Results</button>
+                            </div>
+                            <div class="comparison-content">
+                                <div class="comparison-chart">
+                                    <canvas id="scenario-comparison-chart"></canvas>
+                                </div>
+                                <div class="comparison-table">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Metric</th>
+                                                <th>Current Plan</th>
+                                                <th>Early Retirement</th>
+                                                <th>Delayed Retirement</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Retirement Age</td>
+                                                <td>65</td>
+                                                <td>60</td>
+                                                <td>70</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Withdrawal Rate</td>
+                                                <td>4.0%</td>
+                                                <td>3.5%</td>
+                                                <td>3.2%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Success Rate</td>
+                                                <td class="success">92%</td>
+                                                <td class="warning">78%</td>
+                                                <td class="success">95%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Portfolio at 95</td>
+                                                <td>$1,200,000</td>
+                                                <td>$850,000</td>
+                                                <td>$2,100,000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of scenarios section -->
+                
+                <!-- Tax Planning Section -->
+                <div id="tax-planning" class="content-section" style="display: none;">
+                    <div class="tax-planning">
+                        <header class="main-header">
+                            <h1>Tax Planning</h1>
+                            <p>Optimize your retirement withdrawals for tax efficiency</p>
+                        </header>
+
+                        <div class="tax-planning-grid">
+                            <!-- Tax Bracket Visualization -->
+                            <div class="tax-card tax-bracket-viz">
+                                <div class="card-header">
+                                    <h3>Tax Bracket Analysis</h3>
+                                    <div class="tax-year-selector">
+                                        <label for="tax-year">Tax Year:</label>
+                                        <select id="tax-year" class="form-control-sm">
+                                            <option value="2024">2024</option>
+                                            <option value="2025" selected>2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tax-bracket-container">
+                                    <div class="tax-bracket-scale">
+                                        <div class="tax-bracket" style="height: 15%; background-color: #e3f2fd;">
+                                            <span>10%</span>
+                                            <div class="bracket-range">$0 - $22,000</div>
+                                        </div>
+                                        <!-- More tax bracket content -->
+                                    </div>
+                                    <div class="tax-bracket-indicator">
+                                        <div class="indicator-line"></div>
+                                        <div class="indicator-label">
+                                            <span>Your Projected Income</span>
+                                            <strong>$125,000</strong>
+                                            <small>22% Bracket</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tax Efficiency Tips -->
+                            <div class="tax-card tax-tips">
+                                <div class="card-header">
+                                    <h3>Tax Efficiency Tips</h3>
+                                </div>
+                                <ul class="tax-tips-list">
+                                    <li>Consider Roth conversions in lower income years</li>
+                                    <li>Harvest tax losses to offset capital gains</li>
+                                    <li>Time withdrawals to stay in lower tax brackets</li>
+                                    <li>Maximize tax-advantaged accounts first</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Tax Projections -->
+                            <div class="tax-card tax-projections">
+                                <div class="card-header">
+                                    <h3>Annual Tax Projection</h3>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="tax-projection-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                            <!-- Roth Conversion Calculator -->
+                            <div class="tax-card roth-conversion">
+                                <div class="card-header">
+                                    <h3>Roth Conversion Calculator</h3>
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount to Convert</label>
+                                    <input type="range" class="form-control-range" id="conversion-amount" min="0" max="100000" step="1000">
+                                    <div class="d-flex justify-content-between">
+                                        <small>$0</small>
+                                        <span id="conversion-amount-value">$50,000</span>
+                                        <small>$100,000</small>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tax Year</label>
+                                    <select class="form-control">
+                                        <option>2025</option>
+                                        <option>2024</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary btn-block">Calculate Conversion</button>
+                                <div class="conversion-results mt-3">
+                                    <div class="result-item">
+                                        <span>Tax Cost:</span>
+                                        <strong>$12,500</strong>
+                                    </div>
+                                    <div class="result-item">
+                                        <span>Projected Tax Savings:</span>
+                                        <strong class="text-success">$15,200</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of tax-planning -->
+                
+            </div> <!-- End of content-wrapper -->
+        </main>
+    </div>
+
+    <!-- Include Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Retirement Calculator -->
+    <script src="js/retirement-calculator.js"></script>
+    
+    <!-- Main application script -->
+    <script src="js/app.js"></script>
+    
+    <!-- Initialize the app after all scripts are loaded -->
+    <script>
+        // This will be called by app.js when it's ready
+        window.initApp = function() {
+            // Initialize retirement calculator
+            let retirementCalculator;
+            
+            // Initialize calculator when projections section is loaded
+            document.addEventListener('sectionLoaded', (e) => {
+                if (e.detail.section === 'projections') {
+                    // Only initialize if not already initialized
+                    if (typeof RetirementCalculator !== 'undefined' && !retirementCalculator) {
+                        retirementCalculator = new RetirementCalculator();
+                        console.log('Retirement calculator initialized');
+                    }
+                }
+            });
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (mobileMenuToggle && sidebar) {
+                // Mobile menu toggle
+                mobileMenuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true' || false;
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    sidebar.classList.toggle('active', !isExpanded);
+                    this.classList.toggle('active', !isExpanded);
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (window.innerWidth <= 768 && 
+                        !sidebar.contains(event.target) && 
+                        !mobileMenuToggle.contains(event.target)) {
+                        sidebar.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('active');
+                        mobileMenuToggle.classList.remove('active');
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+</html>

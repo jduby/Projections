@@ -1,0 +1,271 @@
+<div class="tax-planning">
+    <header class="main-header">
+        <h1>Tax Planning</h1>
+        <p>Optimize your retirement withdrawals for tax efficiency</p>
+    </header>
+
+    <div class="tax-planning-grid">
+        <!-- Tax Bracket Visualization -->
+        <div class="tax-card tax-bracket-viz">
+            <div class="card-header">
+                <h3>Tax Bracket Analysis</h3>
+                <div class="tax-year-selector">
+                    <label for="tax-year">Tax Year:</label>
+                    <select id="tax-year" class="form-control-sm">
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tax-bracket-container">
+                <div class="tax-bracket-scale">
+                    <div class="tax-bracket" style="height: 15%; background-color: #e3f2fd;">
+                        <span>10%</span>
+                        <div class="bracket-range">$0 - $22,000</div>
+                    </div>
+                    <div class="tax-bracket" style="height: 25%; background-color: #bbdefb;">
+                        <span>12%</span>
+                        <div class="bracket-range">$22,001 - $89,450</div>
+                    </div>
+                    <div class="tax-bracket" style="height: 35%; background-color: #90caf9;">
+                        <span>22%</span>
+                        <div class="bracket-range">$89,451 - $190,750</div>
+                    </div>
+                    <div class="tax-bracket" style="height: 25%; background-color: #64b5f6;">
+                        <span>24%</span>
+                        <div class="bracket-range">$190,751 - $364,200</div>
+                    </div>
+                </div>
+                <div class="tax-bracket-indicator">
+                    <div class="indicator-line"></div>
+                    <div class="indicator-label">
+                        <span>Your Projected Income</span>
+                        <strong>$125,000</strong>
+                        <small>22% Bracket</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roth Conversion Calculator -->
+        <div class="tax-card roth-conversion">
+            <div class="card-header">
+                <h3>Roth Conversion Calculator</h3>
+            </div>
+            <div class="conversion-calculator">
+                <div class="form-group">
+                    <label for="traditional-balance">Traditional IRA Balance</label>
+                    <div class="input-with-icon">
+                        <span class="icon">$</span>
+                        <input type="text" id="traditional-balance" value="500,000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="conversion-amount">Amount to Convert</label>
+                    <div class="input-with-icon">
+                        <span class="icon">$</span>
+                        <input type="text" id="conversion-amount" value="50,000">
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="conversion-slider" min="0" max="500000" step="1000" value="50000">
+                        <div class="slider-ticks">
+                            <span>0</span>
+                            <span>250K</span>
+                            <span>500K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="conversion-results">
+                    <div class="result-item">
+                        <div class="result-label">Tax Cost (24% Bracket)</div>
+                        <div class="result-value" id="tax-cost">$12,000</div>
+                    </div>
+                    <div class="result-item highlight">
+                        <div class="result-label">Tax-Free Growth Potential</div>
+                        <div class="result-value" id="tax-savings">$42,000+</div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block" id="run-conversion">
+                    <i class="fas fa-exchange-alt"></i> Run Conversion Analysis
+                </button>
+            </div>
+        </div>
+
+        <!-- Tax-Efficient Withdrawal Strategy -->
+        <div class="tax-card withdrawal-strategy">
+            <div class="card-header">
+                <h3>Withdrawal Strategy</h3>
+                <button class="btn btn-sm btn-outline" id="optimize-withdrawals">
+                    <i class="fas fa-magic"></i> Optimize
+                </button>
+            </div>
+            <div class="withdrawal-options">
+                <div class="strategy-option active">
+                    <div class="option-header">
+                        <h4>Taxable Accounts First</h4>
+                        <span class="badge">Recommended</span>
+                    </div>
+                    <p>Withdraw from taxable accounts first to allow tax-advantaged accounts more time to grow.</p>
+                    <div class="option-stats">
+                        <div class="stat">
+                            <span class="stat-value">$45,000</span>
+                            <span class="stat-label">Annual Withdrawal</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">12%</span>
+                            <span class="stat-label">Effective Tax Rate</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="strategy-comparison">
+                    <div class="comparison-header">
+                        <span>Strategy Comparison</span>
+                        <div class="tabs">
+                            <button class="tab active" data-tab="taxes">Taxes</button>
+                            <button class="tab" data-tab="growth">Growth</button>
+                            <button class="tab" data-tab="rmd">RMD Impact</button>
+                        </div>
+                    </div>
+                    <div class="comparison-chart">
+                        <canvas id="withdrawal-strategy-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tax Loss Harvesting -->
+        <div class="tax-card tax-loss-harvesting">
+            <div class="card-header">
+                <h3>Tax Loss Harvesting</h3>
+                <span class="badge badge-success">Opportunity Available</span>
+            </div>
+            <div class="harvesting-content">
+                <div class="harvesting-alert">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <strong>Harvesting Opportunity</strong>
+                        <p>You have $8,450 in unrealized losses that could offset capital gains.</p>
+                    </div>
+                </div>
+                
+                <div class="harvesting-table">
+                    <div class="table-header">
+                        <span>Investment</span>
+                        <span>Unrealized Gain/Loss</span>
+                    </div>
+                    <div class="table-row">
+                        <div class="investment">
+                            <div class="ticker">VTSAX</div>
+                            <div class="name">Vanguard Total Stock Market</div>
+                        </div>
+                        <div class="gain-loss negative">
+                            -$2,450
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="investment">
+                            <div class="ticker">AAPL</div>
+                            <div class="name">Apple Inc.</div>
+                        </div>
+                        <div class="gain-loss negative">
+                            -$6,000
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline btn-block" id="view-harvesting">
+                    <i class="fas fa-seedling"></i> View Harvesting Strategies
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize tax planning specific functionality
+function initTaxPlanning() {
+    // Initialize tax bracket visualization
+    const initTaxBrackets = () => {
+        // Implementation for tax bracket visualization
+        console.log('Initializing tax bracket visualization...');
+    };
+    
+    // Roth conversion calculator
+    const initRothConversion = () => {
+        const conversionAmount = document.getElementById('conversion-amount');
+        const conversionSlider = document.getElementById('conversion-slider');
+        const taxCost = document.getElementById('tax-cost');
+        
+        if (conversionAmount && conversionSlider && taxCost) {
+            // Format currency input
+            conversionAmount.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value ? parseInt(value).toLocaleString() : '0';
+                e.target.value = value;
+                conversionSlider.value = value.replace(/\D/g, '');
+                updateTaxCalculation();
+            });
+            
+            // Update input from slider
+            conversionSlider.addEventListener('input', function() {
+                conversionAmount.value = parseInt(this.value).toLocaleString();
+                updateTaxCalculation();
+            });
+            
+            // Calculate tax on conversion
+            const updateTaxCalculation = () => {
+                const amount = parseInt(conversionAmount.value.replace(/\D/g, '') || '0');
+                // Simplified tax calculation (24% bracket)
+                const tax = Math.round(amount * 0.24);
+                taxCost.textContent = '$' + tax.toLocaleString();
+                
+                // Update tax savings estimate (simplified)
+                const savings = Math.round(amount * 0.84); // Estimated future value
+                document.getElementById('tax-savings').textContent = '$' + savings.toLocaleString() + '+';
+            };
+            
+            // Initial calculation
+            updateTaxCalculation();
+        }
+    };
+    
+    // Initialize withdrawal strategy tabs
+    const initStrategyTabs = () => {
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelector('.tab.active').classList.remove('active');
+                this.classList.add('active');
+                // Update chart based on selected tab
+                updateStrategyChart(this.dataset.tab);
+            });
+        });
+    };
+    
+    // Update strategy chart
+    const updateStrategyChart = (tab) => {
+        console.log('Updating strategy chart for tab:', tab);
+        // Implementation for updating the chart based on selected tab
+    };
+    
+    // Initialize all components
+    const init = () => {
+        initTaxBrackets();
+        initRothConversion();
+        initStrategyTabs();
+        
+        // Run optimization when button is clicked
+        document.getElementById('optimize-withdrawals')?.addEventListener('click', () => {
+            alert('Running optimization... This would analyze your accounts and suggest the most tax-efficient withdrawal strategy.');
+        });
+    };
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'complete') {
+        init();
+    } else {
+        window.addEventListener('load', init);
+    }
+}
+</script>

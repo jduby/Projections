@@ -1,0 +1,9 @@
+field,value
+rate_of_return,0.055
+inflation_rate,0.03
+yearly_spend,40000
+added_spend,0
+effective_tax_rate,0.13
+starting_tax_deferred,1000000
+starting_roth,
+starting_taxable,

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Projections</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="projections content-section" id="projections-content">
+        <header class="main-header">
+            <h1>Retirement Projections</h1>
+            <p>Analyze and project your retirement savings and income</p>
+        </header>
+
+    <div class="projection-controls">
+        <div class="controls-left">
+            <button type="button" class="btn btn-primary" id="run-projection">
+                <i class="fas fa-sync-alt"></i> Update Projection
+            </button>
+            <button type="button" class="btn btn-outline" id="save-scenario">
+                <i class="fas fa-save"></i> Save as Scenario
+            </button>
+        </div>
+        <div class="controls-right">
+            <div class="form-group">
+                <label for="projection-years">Projection Years:</label>
+                <select id="projection-years" class="form-control" data-validate="required,number,min:1">
+                    <option value="10">10 Years</option>
+                    <option value="20">20 Years</option>
+                    <option value="30" selected>30 Years</option>
+                    <option value="40">40 Years</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="input-panel">
+            <h2>📊 Input Parameters</h2>
+            <form id="projection-form" class="input-grid">
+                <!-- Current Age -->
+                <div class="input-group">
+                    <label for="current-age">Current Age</label>
+                    <input type="number" id="current-age" value="55" min="18" max="100" data-validate="required,number,min:18,max:100">
+                    <small>Your current age</small>
+                </div>
+
+                <!-- Portfolio Value -->
+                <div class="input-group">
+                    <label for="starting-tax-deferred">Tax-Deferred Accounts</label>
+                    <input type="text" id="starting-tax-deferred" value="1,000,000" pattern="[0-9,.]*" data-validate="required,currency">
+                    <small>401(k), Traditional IRA, etc.</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="starting-roth">Roth Accounts</label>
+                    <input type="text" id="starting-roth" value="200,000" pattern="[0-9,.]*" data-validate="required,currency">
+                    <small>Roth IRA, Roth 401(k), etc.</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="starting-taxable">Taxable Accounts</label>
+                    <input type="text" id="starting-taxable" value="300,000" pattern="[0-9,.]*" data-validate="required,currency">
+                    <small>Brokerage, savings, etc.</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="yearly-spend">Annual Spending</label>
+                    <input type="text" id="yearly-spend" value="80,000" pattern="[0-9,.]*" data-validate="required,currency">
+                    <small>Expected annual retirement spending</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="rate-of-return">Annual Return (%)</label>
+                    <input type="number" id="rate-of-return" step="0.1" value="6.0" min="0" max="20" data-validate="required,number,min:0,max:20">
+                    <small>Expected annual investment return</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="inflation-rate">Inflation Rate (%)</label>
+                    <input type="number" id="inflation-rate" step="0.1" value="3.0" min="0" max="10" data-validate="required,number,min:0,max:10">
+                    <small>Expected annual inflation rate</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="effective-tax-rate">Effective Tax Rate (%)</label>
+                    <input type="number" id="effective-tax-rate" step="0.1" value="15.0" min="0" max="50" data-validate="required,number,min:0,max:50">
+                    <small>Estimated effective tax rate in retirement</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="social-security">Social Security (Annual)</label>
+                    <input type="text" id="social-security" value="30,000" pattern="[0-9,.]*" data-validate="required,currency">
+                    <small>Expected annual Social Security benefit</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="pension-income">Pension (Annual)</label>
+                    <input type="text" id="pension-income" value="0" pattern="[0-9,.]*" data-validate="currency">
+                    <small>Annual pension income (if any)</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="other-income">Other Income (Annual)</label>
+                    <input type="text" id="other-income" value="0" pattern="[0-9,.]*" data-validate="currency">
+                    <small>Any other annual income sources</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="results-container">
+        <div class="results-panel">
+            <h2>📈 Projection Results</h2>
+            
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Ending Balance</h3>
+                        <div class="card-value" id="ending-balance">$0</div>
+                        <div class="card-subtext">At end of projection</div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Total Withdrawals</h3>
+                        <div class="card-value" id="total-withdrawals">$0</div>
+                        <div class="card-subtext">Total amount withdrawn</div>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>Avg. Annual Return</h3>
+                        <div class="card-value" id="avg-annual-return">0.0%</div>
+                        <div class="card-subtext">Average return over period</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projection Chart -->
+            <div class="projection-chart">
+                <h3>Projection Over Time</h3>
+                <div class="chart-container">
+                    <canvas id="projection-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Detailed Results Table -->
+            <div class="results-table">
+                <h3>Year-by-Year Projection</h3>
+                <div class="table-responsive">
+                    <table id="projection-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Age</th>
+                                <th>Starting Balance</th>
+                                <th>Withdrawals</th>
+                                <th>Ending Balance</th>
+                                <th>Taxes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projection-table-body">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js for visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Include the retirement calculator -->
+<script src="../js/retirement-calculator.js"></script>
+
+<script>
+// Initialize projections-specific functionality
+function initProjections() {
+    // Initialize the retirement calculator
+    if (window.retirementCalculator && typeof window.retirementCalculator.initialize === 'function') {
+        window.retirementCalculator.initialize();
+        // Add event listener for the save scenario button
+        document.getElementById('save-scenario')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Scenario saving will be implemented in a future update.');
+        });
+    }
+}
+</script>

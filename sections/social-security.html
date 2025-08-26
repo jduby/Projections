@@ -1,0 +1,205 @@
+<div class="social-security">
+    <header class="main-header">
+        <h1>Social Security Optimization</h1>
+        <p>Maximize your Social Security benefits with strategic claiming strategies</p>
+    </header>
+
+    <div class="ss-optimization-grid">
+        <!-- Benefits Overview -->
+        <div class="ss-card benefits-overview">
+            <div class="card-header">
+                <h3>Your Estimated Benefits</h3>
+                <button class="btn btn-sm btn-outline" id="update-benefits">
+                    <i class="fas fa-edit"></i> Update
+                </button>
+            </div>
+            <div class="benefits-summary">
+                <div class="benefit-item">
+                    <div class="benefit-label">Full Retirement Age (FRA)</div>
+                    <div class="benefit-value" id="fra-age">67</div>
+                    <div class="benefit-note">Based on your birth year</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-label">Monthly Benefit at FRA</div>
+                    <div class="benefit-value" id="fra-benefit">$2,500</div>
+                    <div class="benefit-note">Primary Insurance Amount (PIA)</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-label">Earliest Claiming Age</div>
+                    <div class="benefit-value">62</div>
+                    <div class="benefit-note" id="earliest-benefit">$1,750/mo (70% of PIA)</div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-label">Latest Claiming Age</div>
+                    <div class="benefit-value">70</div>
+                    <div class="benefit-note" id="latest-benefit">$3,100/mo (124% of PIA)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claiming Age Analysis -->
+        <div class="ss-card claiming-analysis">
+            <div class="card-header">
+                <h3>Claiming Age Comparison</h3>
+                <div class="chart-controls">
+                    <span class="chart-option active" data-metric="monthly">Monthly</span>
+                    <span class="chart-option" data-metric="cumulative">Cumulative</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="ss-comparison-chart"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #4CAF50;"></span>
+                    <span>Age 62</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #2196F3;"></span>
+                    <span>Full Retirement Age (67)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #FF9800;"></span>
+                    <span>Age 70</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Break-Even Analysis -->
+        <div class="ss-card break-even">
+            <div class="card-header">
+                <h3>Break-Even Analysis</h3>
+            </div>
+            <div class="break-even-content">
+                <div class="break-even-chart">
+                    <div class="break-even-line"></div>
+                    <div class="break-even-point" style="left: 60%;">
+                        <div class="break-even-bubble">
+                            <strong>Break-even:</strong> Age 82
+                        </div>
+                    </div>
+                    <div class="break-even-labels">
+                        <span>Age 62</span>
+                        <span>Age 82</span>
+                        <span>Age 95+</span>
+                    </div>
+                </div>
+                <div class="break-even-details">
+                    <p>Delaying benefits until age 70 results in higher lifetime benefits if you live past <strong>age 82</strong>.</p>
+                    <p>Consider your health, family longevity, and other income sources when deciding when to claim.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spousal Benefits -->
+        <div class="ss-card spousal-benefits">
+            <div class="card-header">
+                <h3>Spousal Benefits</h3>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="include-spouse" checked>
+                    <label for="include-spouse"></label>
+                </div>
+            </div>
+            <div id="spousal-details">
+                <div class="spouse-inputs">
+                    <div class="form-group">
+                        <label for="spouse-age">Spouse's Age</label>
+                        <input type="number" id="spouse-age" value="65" min="62" max="70">
+                    </div>
+                    <div class="form-group">
+                        <label for="spouse-pia">Spouse's PIA</label>
+                        <div class="input-with-icon">
+                            <span class="icon">$</span>
+                            <input type="text" id="spouse-pia" value="1,800">
+                        </div>
+                    </div>
+                </div>
+                <div class="spouse-results">
+                    <div class="result-item">
+                        <div class="result-label">Your Spousal Benefit</div>
+                        <div class="result-value" id="spousal-benefit">$900/mo</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Total Household Benefit</div>
+                        <div class="result-value" id="total-household-benefit">$4,300/mo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Strategy Recommendations -->
+    <div class="strategy-recommendations">
+        <h3>Recommended Strategy</h3>
+        <div class="strategy-card">
+            <div class="strategy-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="strategy-details">
+                <h4>Delay Until 70</h4>
+                <p>Based on your inputs, delaying Social Security benefits until age 70 would maximize your lifetime benefits, especially if you have good health and family longevity.</p>
+                <ul class="strategy-benefits">
+                    <li>8% annual increase in benefits (after FRA)</li>
+                    <li>Higher survivor benefits for your spouse</li>
+                    <li>Inflation-protected income for life</li>
+                </ul>
+            </div>
+            <div class="strategy-actions">
+                <button class="btn btn-primary">View Detailed Analysis</button>
+                <button class="btn btn-outline">Save as PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize Social Security specific functionality
+function initSocialSecurity() {
+    // Initialize chart
+    const initChart = () => {
+        const ctx = document.getElementById('ss-comparison-chart');
+        if (!ctx) return;
+
+        // Chart initialization code will go here
+        console.log('Initializing Social Security comparison chart...');
+    }
+    // Toggle between monthly and cumulative views
+    document.querySelectorAll('.chart-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelector('.chart-option.active').classList.remove('active');
+            this.classList.add('active');
+            // Update chart based on selected view
+            updateChart(this.dataset.metric);
+        });
+    });
+
+    // Toggle spousal benefits
+    document.getElementById('include-spouse')?.addEventListener('change', function() {
+        const details = document.getElementById('spousal-details');
+        if (details) {
+            details.style.display = this.checked ? 'block' : 'none';
+            // Recalculate benefits if needed
+            if (this.checked) calculateSpousalBenefits();
+        }
+    });
+
+    // Initialize on page load
+    if (document.readyState === 'complete') {
+        initChart();
+    } else {
+        window.addEventListener('load', initChart);
+    }
+
+    // Example function to update the chart
+    function updateChart(metric) {
+        console.log('Updating chart with metric:', metric);
+        // Update chart data based on selected metric
+    }
+
+    // Example function to calculate spousal benefits
+    function calculateSpousalBenefits() {
+        // Calculate and update spousal benefits
+        console.log('Calculating spousal benefits...');
+    }
+}
+</script>

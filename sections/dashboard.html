@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retirement Dashboard</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../navigation.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard content-section" id="dashboard-content">
+        <header class="main-header">
+            <h1>Retirement Dashboard</h1>
+            <p>Welcome to your retirement planning dashboard</p>
+        </header>
+
+    <div class="dashboard-grid">
+        <!-- Summary Cards -->
+        <div class="dashboard-card summary">
+            <div class="card-header">
+                <h3>Retirement Summary</h3>
+                <span class="last-updated">Updated just now</span>
+            </div>
+            <div class="summary-stats">
+                <div class="stat">
+                    <span class="stat-value" id="total-assets">$1,250,000</span>
+                    <span class="stat-label">Total Assets</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="monthly-income">$4,167</span>
+                    <span class="stat-label">Monthly Income</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="withdrawal-rate">4.0%</span>
+                    <span class="stat-label">Withdrawal Rate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dashboard-card recent-activity">
+            <div class="card-header">
+                <h3>Recent Activity</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            <ul class="activity-list">
+                <li class="activity-item">
+                    <div class="activity-icon success">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="activity-details">
+                        <p>Updated retirement projection with new market data</p>
+                        <span class="activity-time">2 hours ago</span>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon info">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="activity-details">
+                        <p>Saved new scenario "Delayed Retirement"</p>
+                        <span class="activity-time">1 day ago</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-card quick-actions">
+            <div class="card-header">
+                <h3>Quick Actions</h3>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn" data-section="projections">
+                    <i class="fas fa-calculator"></i>
+                    <span>Update Projections</span>
+                </button>
+                <button class="action-btn" data-section="social-security">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Social Security Analysis</span>
+                </button>
+                <button class="action-btn" data-section="tax-planning">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Tax Planning</span>
+                </button>
+                <button class="action-btn" data-section="scenarios">
+                    <i class="fas fa-random"></i>
+                    <span>Compare Scenarios</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Upcoming Milestones -->
+        <div class="dashboard-card milestones">
+            <div class="card-header">
+                <h3>Upcoming Milestones</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="milestone-list">
+                <div class="milestone">
+                    <div class="milestone-date">
+                        <span class="month">JUN</span>
+                        <span class="day">15</span>
+                    </div>
+                    <div class="milestone-details">
+                        <h4>Required Minimum Distribution</h4>
+                        <p>Estimated: $45,200</p>
+                    </div>
+                </div>
+                <div class="milestone">
+                    <div class="milestone-date">
+                        <span class="month">JUL</span>
+                        <span class="day">01</span>
+                    </div>
+                    <div class="milestone-details">
+                        <h4>Social Security Review</h4>
+                        <p>Annual benefits adjustment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Chart -->
+    <div class="dashboard-card performance">
+        <div class="card-header">
+            <h3>Portfolio Performance</h3>
+            <div class="time-filters">
+                <button class="time-filter active">1Y</button>
+                <button class="time-filter">3Y</button>
+                <button class="time-filter">5Y</button>
+                <button class="time-filter">All</button>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="performance-chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js for visualizations -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/retirement-calculator.js"></script>
+
+<script>
+// Initialize dashboard-specific functionality
+function initDashboard() {
+    console.log('Dashboard initialized');
+    
+    // Update the last updated time
+    updateLastUpdatedTime();
+    
+    // Set up auto-refresh every 5 minutes
+    setInterval(updateLastUpdatedTime, 5 * 60 * 1000);
+    
+    // Initialize any charts or other dashboard components
+    if (window.retirementCalculator) {
+        // Update the dashboard with current calculator values
+        updateDashboardMetrics();
+        
+        // Listen for updates from the calculator
+        document.addEventListener('retirementDataUpdated', updateDashboardMetrics);
+    }
+    
+    // Set up event listeners for dashboard actions
+    setupDashboardEventListeners();
+}
+
+function updateLastUpdatedTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'short', 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    const timeString = now.toLocaleTimeString('en-US', options);
+    document.querySelectorAll('.last-updated').forEach(el => {
+        el.textContent = `Last updated: ${timeString}`;
+    });
+}
+
+function updateDashboardMetrics() {
+    // Update summary stats with current calculator values
+    const calculator = window.retirementCalculator;
+    if (!calculator) return;
+    
+    // Example: Update total assets
+    const totalAssets = calculator.getTotalAssets();
+    if (totalAssets !== undefined) {
+        document.getElementById('total-assets').textContent = 
+            new Intl.NumberFormat('en-US', { 
+                style: 'currency', 
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(totalAssets);
+    }
+    
+    // Update other metrics similarly
+    const monthlyIncome = calculator.getMonthlyIncome();
+    if (monthlyIncome !== undefined) {
+        document.getElementById('monthly-income').textContent = 
+            new Intl.NumberFormat('en-US', { 
+                style: 'currency', 
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(monthlyIncome);
+    }
+    
+    // Update charts and other visualizations
+    updateCharts();
+}
+
+function setupDashboardEventListeners() {
+    // Add event listeners for dashboard interactions
+    const refreshButton = document.getElementById('refresh-dashboard');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => {
+            location.reload();
+        });
+    }
+    
+    // Add more event listeners as needed
+}
+
+function updateCharts() {
+    // Initialize or update any charts here
+    const ctx = document.getElementById('performance-chart')?.getContext('2d');
+    if (!ctx) return;
+    
+    // Example chart data - replace with real data from calculator
+    const chartData = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            label: 'Portfolio Value',
+            data: [100000, 102000, 105000, 107000, 110000, 108000, 112000, 115000, 118000, 120000, 122000, 125000],
+            borderColor: '#4e73df',
+            tension: 0.3,
+            fill: true,
+            backgroundColor: 'rgba(78, 115, 223, 0.05)'
+        }]
+    };
+    
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `$${context.parsed.y.toLocaleString()}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: false,
+                ticks: {
+                    callback: function(value) {
+                        return '$' + value.toLocaleString();
+                    }
+                }
+            }
+        }
+    };
+    
+    // Destroy existing chart if it exists
+    if (window.performanceChart) {
+        window.performanceChart.destroy();
+    }
+    
+    // Create new chart
+    window.performanceChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: chartOptions
+    });
+}
+
+// Initialize the dashboard when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+</body>
+</html>
