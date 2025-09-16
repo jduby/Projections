@@ -145,8 +145,13 @@ a:hover {
     color: #2d3748;
 }
 
-.input-group input[type="text"],
-.input-group input[type="number"],
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea,
+.input-group input,
 .input-group select,
 .input-group textarea {
     width: 100%;
@@ -161,8 +166,13 @@ a:hover {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.input-group input[type="text"]:focus,
-.input-group input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus,
+.input-group input:focus,
 .input-group select:focus,
 .input-group textarea:focus {
     border-color: #a0aec0;
@@ -867,9 +877,29 @@ button[type="submit"]:disabled {
     transition: color 0.2s ease;
 }
 
+.input-with-icon {
+    position: relative;
+    width: 100%;
+}
+
+.input-with-icon .icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
 .input-with-icon input {
     padding-left: 2.5rem;
     width: 100%;
+}
+
+.input-with-icon input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+    outline: none;
 }
 
 /* Adjust icon position for number inputs */
@@ -1206,17 +1236,23 @@ tbody tr:nth-child(even):hover {
 }
 
 /* Style the input fields */
-#pension-income,
+#annual-pension,
 #annuity-income,
-#social-security {
+#annual-social-security {
     background-color: white;
     border: 1px solid #e2e8f0;
 }
 
 /* Style the labels */
-label[for="pension-income"],
+label[for="annual-pension"],
 label[for="annuity-income"],
-label[for="social-security"] {
+label[for="annual-social-security"] {
     color: #0369a1;
     font-weight: 500;
+}
+
+.input-group {
+    border: 1px dashed #ccc;
+    margin: 5px;
+    padding: 5px;
 }

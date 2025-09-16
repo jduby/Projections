@@ -256,8 +256,8 @@ class RetirementCalculator {
             const startingTaxable = this.parseCurrency(taxableInput?.value) || 0;
             
             // Get income sources
-            const socialSecurity = this.parseCurrency(document.getElementById('social-security')?.value) || 0;
-            const pension = this.parseCurrency(document.getElementById('pension-income')?.value) || 0;
+            const socialSecurity = this.parseCurrency(document.getElementById('annual-social-security')?.value) || 0;
+            const pension = this.parseCurrency(document.getElementById('annual-pension')?.value) || 0;
             const otherIncome = this.parseCurrency(document.getElementById('other-income')?.value) || 0;
             
             // Calculate starting balance (sum of all accounts)
