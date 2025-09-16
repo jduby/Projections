@@ -169,7 +169,8 @@ class RetirementCalculator {
             taxRate,
             socialSecurity = 0,
             pension = 0,
-            otherIncome = 0
+            otherIncome = 0,
+            currentAge
         } = params;
 
         // Calculate beginning of year values
@@ -185,23 +186,40 @@ class RetirementCalculator {
         
         // Calculate total income and taxable income
         const totalIncome = inflationAdjustedSS + inflationAdjustedPension + inflationAdjustedOtherIncome;
-        const taxableIncome = inflationAdjustedPension + inflationAdjustedOtherIncome;
         
-        // Calculate net withdrawal after taxes
-        const taxes = this.calculateTax(taxableIncome, taxRate);
-        const netWithdrawal = Math.max(0, inflationAdjustedSpend - (totalIncome - taxes));
+        // Calculate withdrawal needed (after accounting for income)
+        let withdrawalNeeded = Math.max(0, inflationAdjustedSpend - totalIncome);
         
-        // Calculate growth
-        const growth = (beginningBalance - netWithdrawal) * (rateOfReturn / 100);
+        // Calculate taxes on withdrawal (assuming all withdrawals are from tax-deferred accounts for simplicity)
+        const taxes = this.calculateTax(withdrawalNeeded, taxRate);
+        const totalWithdrawal = withdrawalNeeded + taxes;
+        
+        // Calculate growth on the balance before withdrawal
+        const growth = beginningBalance * (rateOfReturn / 100);
         
         // Calculate ending balance
-        const endingBalance = beginningBalance + growth - netWithdrawal;
+        const endingBalance = beginningBalance + growth - totalWithdrawal;
+        
+        // Debug log for first year
+        if (year === 0) {
+            console.log('First year projection:', {
+                beginningBalance,
+                inflationAdjustedSpend,
+                totalIncome,
+                withdrawalNeeded,
+                taxes,
+                totalWithdrawal,
+                growth,
+                endingBalance
+            });
+        }
         
         return {
             year: this.currentYear + year,
             age: params.currentAge + year,
             beginningBalance,
-            withdrawal: netWithdrawal,
+            withdrawal: totalWithdrawal,
+            taxes,
             growth,
             endingBalance,
             socialSecurity: inflationAdjustedSS,
@@ -226,17 +244,36 @@ class RetirementCalculator {
             const years = parseInt(document.getElementById('projection-years').value) || 30;
             const currentAge = parseInt(document.getElementById('current-age')?.value) || 65;
             
-            const startingTaxDeferred = this.parseCurrency(document.getElementById('starting-tax-deferred').value) || 0;
-            const startingRoth = this.parseCurrency(document.getElementById('starting-roth').value) || 0;
-            const startingTaxable = this.parseCurrency(document.getElementById('starting-taxable').value) || 0;
+            // Get all account balances
+            const taxDeferredInput = document.getElementById('starting-tax-deferred');
+            const rothInput = document.getElementById('starting-roth');
+            const taxableInput = document.getElementById('starting-taxable');
             
-            const socialSecurity = this.parseCurrency(document.getElementById('social-security').value) || 0;
-            const pension = this.parseCurrency(document.getElementById('pension-income').value) || 0;
+            console.log('Input elements:', { taxDeferredInput, rothInput, taxableInput });
+            
+            const startingTaxDeferred = this.parseCurrency(taxDeferredInput?.value) || 0;
+            const startingRoth = this.parseCurrency(rothInput?.value) || 0;
+            const startingTaxable = this.parseCurrency(taxableInput?.value) || 0;
+            
+            // Get income sources
+            const socialSecurity = this.parseCurrency(document.getElementById('social-security')?.value) || 0;
+            const pension = this.parseCurrency(document.getElementById('pension-income')?.value) || 0;
             const otherIncome = this.parseCurrency(document.getElementById('other-income')?.value) || 0;
+            
+            // Calculate starting balance (sum of all accounts)
+            const startingBalance = startingTaxDeferred + startingRoth + startingTaxable;
+            
+            // Debug log to verify values
+            console.log('Starting balances:', { 
+                taxDeferred: startingTaxDeferred, 
+                roth: startingRoth, 
+                taxable: startingTaxable, 
+                total: startingBalance 
+            });
             
             // Calculate projection for each year
             this.projectionData = [];
-            let currentBalance = startingTaxDeferred + startingRoth + startingTaxable;
+            let currentBalance = startingBalance;
             
             for (let year = 0; year < years; year++) {
                 const projection = this.calculateAnnualProjection(year, {
@@ -270,17 +307,44 @@ class RetirementCalculator {
 
     // Update the UI with projection results
     updateResults() {
-        const results = this.calculateProjection();
-        if (!results || results.length === 0) return;
-        
-        // Update summary cards
-        this.updateSummaryCards(results);
-        
-        // Update projection chart
-        this.updateProjectionChart(results);
-        
-        // Update results table
-        this.updateResultsTable(results);
+        try {
+            // Show loading state
+            const runButton = document.getElementById('run-projection');
+            if (runButton) {
+                const originalText = runButton.innerHTML;
+                runButton.disabled = true;
+                runButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+                
+                // Use setTimeout to ensure UI updates before heavy calculation
+                setTimeout(() => {
+                    try {
+                        const results = this.calculateProjection();
+                        if (!results || results.length === 0) return;
+                        
+                        // Update all UI components
+                        this.updateSummaryCards(results);
+                        this.updateProjectionChart(results);
+                        this.updateResultsTable(results);
+                    } catch (error) {
+                        console.error('Error updating results:', error);
+                    } finally {
+                        // Restore button state
+                        runButton.disabled = false;
+                        runButton.innerHTML = originalText;
+                    }
+                }, 50);
+            } else {
+                // Fallback if button not found
+                const results = this.calculateProjection();
+                if (!results || results.length === 0) return;
+                
+                this.updateSummaryCards(results);
+                this.updateProjectionChart(results);
+                this.updateResultsTable(results);
+            }
+        } catch (error) {
+            console.error('Error in updateResults:', error);
+        }
     }
 
     // Update summary cards with key metrics
@@ -468,6 +532,18 @@ class RetirementCalculator {
         
         // Add event listeners to all inputs
         const form = document.getElementById('projection-form');
+        const runButton = document.getElementById('run-projection');
+        
+        // Add click handler for the Update Projection button
+        if (runButton) {
+            runButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (this.isFormValid()) {
+                    this.updateResults();
+                }
+            });
+        }
+        
         if (form) {
             const inputs = form.querySelectorAll('input, select');
             
@@ -476,26 +552,45 @@ class RetirementCalculator {
                 if (input.type === 'text' && input.pattern === '[0-9,.]*') {
                     this.addCurrencyFormatting(input);
                     
-                    // Update on blur and input with debounce
-                    input.addEventListener('blur', () => {
-                        this.validateInput(input);
-                        debouncedUpdate();
+                    // Update on blur with validation
+                    input.addEventListener('blur', (e) => {
+                        if (this.validateInput(input)) {
+                            debouncedUpdate();
+                        }
                     });
                     
-                    // Add input masking and trigger update on change
+                    // Update on input with debounce (for better UX)
+                    let inputTimer;
                     input.addEventListener('input', (e) => {
                         this.formatCurrencyInput(e);
-                        debouncedUpdate();
+                        
+                        // Clear any existing timer
+                        if (inputTimer) {
+                            clearTimeout(inputTimer);
+                        }
+                        
+                        // Set a new timer to update after user stops typing
+                        inputTimer = setTimeout(() => {
+                            if (this.validateInput(input)) {
+                                debouncedUpdate();
+                            }
+                        }, 1000);
                     });
                 } else {
-                    // For other inputs, update on change and input
+                    // For other inputs (select, number), update on change and blur
                     const updateHandler = () => {
-                        this.validateInput(input);
-                        debouncedUpdate();
+                        if (this.validateInput(input)) {
+                            debouncedUpdate();
+                        }
                     };
                     
                     input.addEventListener('change', updateHandler);
-                    input.addEventListener('input', updateHandler);
+                    input.addEventListener('blur', updateHandler);
+                    
+                    // For number inputs, also update on arrow clicks
+                    if (input.type === 'number') {
+                        input.addEventListener('input', updateHandler);
+                    }
                 }
             });
         }

@@ -273,57 +273,6 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="starting-tax-deferred">Tax-Deferred Balance <span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <span class="icon">$</span>
-                            <input type="text" 
-                                   id="starting-tax-deferred" 
-                                   value="1,000,000" 
-                                   inputmode="decimal" 
-                                   pattern="[0-9,.]*"
-                                   data-validate="required,currency"
-                                   placeholder="1,000,000"
-                                   aria-describedby="tax-deferred-help">
-                        </div>
-                        <small id="tax-deferred-help" class="help-text">401(k), Traditional IRA, etc.</small>
-                        <div class="validation-message"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="starting-roth">Roth Balance</label>
-                        <div class="input-with-icon">
-                            <span class="icon">$</span>
-                            <input type="text" 
-                                   id="starting-roth" 
-                                   value="0" 
-                                   inputmode="decimal" 
-                                   pattern="[0-9,.]*"
-                                   data-validate="currency"
-                                   placeholder="0"
-                                   aria-describedby="roth-help">
-                        </div>
-                        <small id="roth-help" class="help-text">Roth IRA, Roth 401(k)</small>
-                        <div class="validation-message"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="starting-taxable">Taxable Balance</label>
-                        <div class="input-with-icon">
-                            <span class="icon">$</span>
-                            <input type="text" 
-                                   id="starting-taxable" 
-                                   value="0" 
-                                   inputmode="decimal" 
-                                   pattern="[0-9,.]*"
-                                   data-validate="currency"
-                                   placeholder="0"
-                                   aria-describedby="taxable-help">
-                        </div>
-                        <small id="taxable-help" class="help-text">Brokerage accounts</small>
-                        <div class="validation-message"></div>
-                    </div>
-
-                    <div class="input-group">
                         <label for="projection-years">Projection Years <span class="required">*</span></label>
                         <input type="number" 
                                id="projection-years" 
@@ -466,28 +415,6 @@
                             <p>Analyze and project your retirement savings and income</p>
                         </header>
 
-                        <div class="projection-controls">
-                            <div class="controls-left">
-                                <button type="button" class="btn btn-primary" id="run-projection">
-                                    <i class="fas fa-sync-alt"></i> Update Projection
-                                </button>
-                                <button type="button" class="btn btn-outline" id="save-scenario">
-                                    <i class="fas fa-save"></i> Save as Scenario
-                                </button>
-                            </div>
-                            <div class="controls-right">
-                                <div class="form-group">
-                                    <label for="projection-years">Projection Years:</label>
-                                    <select id="projection-years" class="form-control" data-validate="required,number,min:1">
-                                        <option value="10">10 Years</option>
-                                        <option value="20">20 Years</option>
-                                        <option value="30" selected>30 Years</option>
-                                        <option value="40">40 Years</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="input-container">
                             <div class="input-panel">
                                 <h2>📊 Input Parameters</h2>
@@ -560,6 +487,29 @@
                                         <small>Any other annual income sources</small>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+
+                        <!-- Projection Controls -->
+                        <div class="projection-controls">
+                            <div class="controls-left">
+                                <button type="button" class="btn btn-primary" id="run-projection">
+                                    <i class="fas fa-sync-alt"></i> Update Projection
+                                </button>
+                                <button type="button" class="btn btn-outline" id="save-scenario">
+                                    <i class="fas fa-save"></i> Save as Scenario
+                                </button>
+                            </div>
+                            <div class="controls-right">
+                                <div class="form-group">
+                                    <label for="projection-years">Projection Period</label>
+                                    <select id="projection-years" class="form-control" data-validate="required,number,min:1">
+                                        <option value="10">10 Years</option>
+                                        <option value="20">20 Years</option>
+                                        <option value="30" selected>30 Years</option>
+                                        <option value="40">40 Years</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
